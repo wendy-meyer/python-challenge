@@ -1,0 +1,125 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os  \n",
+    "import csv\n",
+    "import sys\n",
+    "\n",
+    "poll_data = os.path.join(\"Resources\",\"election_data.csv\")\n",
+    "with open(poll_data, 'r') as csvfile:\n",
+    "    csvreader = csv.reader(csvfile, delimiter=',')\n",
+    "    header = next(csvreader)\n",
+    "    first_row = next(csvreader)\n",
+    "    candidate_votes = {}\n",
+    "    vote_count=0\n",
+    "    \n",
+    "    for row in csvreader:\n",
+    "        candidate_name = row[2]\n",
+    "        vote_count+=1\n",
+    "        if candidate_name not in candidate_votes:\n",
+    "            candidate_votes[candidate_name] = 0 \n",
+    "\n",
+    "        candidate_votes[candidate_name] += 1\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Election Results\n",
+      "-------------------------\n",
+      "Total Votes: 3521000\n",
+      "-------------------------\n",
+      "Correy: 20.0%  (704200)\n",
+      "Khan: 63.0%  (2218230)\n",
+      "Li: 14.0%  (492940)\n",
+      "O'Tooley: 3.0%  (105630)\n",
+      "-------------------------\n",
+      "Winner: Khan\n",
+      "-------------------------\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"Election Results\")\n",
+    "print(f\"-------------------------\")\n",
+    "print(f\"Total Votes: {vote_count}\")\n",
+    "print(f\"-------------------------\")\n",
+    "max_votes = max(candidate_votes.values())\n",
+    "\n",
+    "for candidate_name, votes in candidate_votes.items():\n",
+    "    if votes == max_votes:\n",
+    "        max_candidate = candidate_name\n",
+    "    vote_int = int(votes)\n",
+    "    dec_vote=(votes)/(vote_count)*100\n",
+    "    percent_vote = round(dec_vote,7) #ask class how to get this to 3 decimal places\n",
+    "    print(f\"{candidate_name}: {percent_vote}%  ({votes})\")\n",
+    "print(f\"-------------------------\")\n",
+    "print(f\"Winner: {max_candidate}\")\n",
+    "print(f\"-------------------------\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "pypoll_output = poll_data[0:-4]\n",
+    "export_poll_data = f\"{pypoll_output}pypoll_results.txt\"\n",
+    "\n",
+    "editor = open(export_poll_data, mode = \"w\")\n",
+    "\n",
+    "editor.write(\"Election Results\\n\")\n",
+    "editor.write(\"-------------------------\\n\")\n",
+    "editor.write(f\"Total Votes: {vote_count}\\n\")\n",
+    "editor.write(\"-------------------------\\n\")\n",
+    "for candidate_name, votes in candidate_votes.items():\n",
+    "    editor.write(f\"{candidate_name}: {percent_vote}%  ({votes})\\n\")\n",
+    "editor.write(\"-------------------------\\n\")\n",
+    "editor.write(f\"Winner: {max_candidate}\\n\")\n",
+    "editor.write(f\"-------------------------\")\n",
+    "\n",
+    "editor.close()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
